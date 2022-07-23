@@ -6,7 +6,6 @@ input wire rst,
 output wire [WIDTH-1:0] out
 );
 
-
 reg [WIDTH-1:0] prev;
 reg [WIDTH:0] next;
 
@@ -23,10 +22,7 @@ always @(posedge clk, posedge rst_add) begin
    next <= next + prev;
    prev <= next;
  end
-
 end
-
-
 
 endmodule
 
