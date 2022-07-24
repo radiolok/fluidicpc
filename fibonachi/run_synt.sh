@@ -2,7 +2,14 @@
 
 set -Eeuo pipefail
 
+WIDTH=4
+if [ -f *.vcd ]; then
+  rm *.vcd
+fi
 
-echo 'tcl run_synt.tcl fibonachi.v fibonachi'  > tcl.txt
+iverilog -o adder -P adder_tb.WIDTH=${WIDTH} -s adder_tb adder_tb.v adder.v -g2012
+./adder
+exit
+echo 'tcl run_synt.tcl adder.v adder '${WIDTH}  > tcl.txt
 yosys < tcl.txt
 
