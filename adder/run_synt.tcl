@@ -1,5 +1,6 @@
 yosys -import
 yosys read_verilog [lindex $argv 0] 
+yosys chparam -set WIDTH [lindex $argv 2] adder
 # read design
 hierarchy -check
 yosys synth -top [lindex $argv 1]

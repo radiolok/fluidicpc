@@ -13,13 +13,6 @@ library(demo) {
     pin(Y) { direction: output;
               function: "A'"; }
   }
-  cell(AND) {
-    area: 1;
-    pin(A) { direction: input; }
-    pin(B) { direction: input; }
-    pin(Y) { direction: output;
-             function: "(A&B)"; }
-  }
   cell(OR) {
     area: 1;
     pin(A) { direction: input; }
