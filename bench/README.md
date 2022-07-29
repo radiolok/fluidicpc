@@ -1,3 +1,18 @@
+## Openfoam preparations:
+
+Install openfoam on Linux, or WSL [full instruction](https://develop.openfoam.com/Development/openfoam/-/wikis/precompiled/debian)
+
+```bash
+# Add the repository
+curl https://dl.openfoam.com/add-debian-repo.sh | sudo bash
+
+# Install preferred package. Eg,
+sudo apt-get install openfoam2206-default
+
+# Use the openfoam shell session. Eg,
+openfoam2206
+```
+
 ## ST41 openmpi benchmark
 
 1. init env variables. Your openFoam installation might be differen
