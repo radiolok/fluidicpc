@@ -9,7 +9,7 @@ runParallel()
     sol="${sol%.*}"
     shift
     if [ -f log."$sol" ]; then rm log."$sol"; fi
-    mpiexec -np $nproc -hostfile hostfile "$exe" -parallel "$@" 1> >(tee -a log."$sol") 2> >(tee -a log."$sol" >&2)
+    mpiexec -np $nproc -hostfile hostfile  --allow-run-as-root "$exe" -parallel "$@" 1> >(tee -a log."$sol") 2> >(tee -a log."$sol" >&2)
     err=$?
     if [ ! $err -eq 0 ]; then exit $err; fi
 }
