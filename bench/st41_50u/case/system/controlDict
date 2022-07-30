@@ -39,6 +39,7 @@ runTimeModifiable true;
 
 libs
 (
+    petscFoam
     // Needed for availability of porous baffle boundary in potentialFoam
     #include "turbulenceLib"
 );

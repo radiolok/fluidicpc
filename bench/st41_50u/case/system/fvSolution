@@ -42,7 +42,32 @@ solvers
 {
     "(p|p_rgh|pcorr)"
     {
-        solver           GAMG;
+        solver          petsc;
+        preconditioner  petsc;
+
+        petsc
+        {
+            options
+            {
+                ksp_type    cg;
+                pc_type     bjacobi;
+                sub_pc_type icc;
+            }
+
+            caching
+            {
+                matrix
+                {
+                    update always;
+                }
+
+                preconditioner
+                {
+                    update always;
+                }
+            }
+        }
+
         tolerance        1e-8;
         relTol           0.01;
         smoother         symGaussSeidel;
