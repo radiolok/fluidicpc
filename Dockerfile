@@ -149,4 +149,12 @@ RUN source /opt/openfoam/OpenFOAM-v2206/etc/bashrc && \
   export PETSC_ARCH=$WM_OPTIONS && \
   make PETSC_DIR=/var/tmp/petsc PETSC_ARCH=linux64GccDPInt32Opt install
 
-RUN source /opt/openfoam/OpenFOAM-v2206/etc/bashrc &&  mkdir -p /var/tmp && cd /var/tmp && git clone -b v2206 https://develop.openfoam.com/modules/external-solver.git petscfoam && cd /var/tmp/petscfoam  &&  ./Allwmake
+ENV OMPI_ALLOW_RUN_AS_ROOT=1
+ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+ENV PETSC_DIR=/opt/openfoam/ThirdParty-v2206/platforms/linux64GccDPInt32/petsc-git/
+ENV PETSC_ARCH=linux64GccDPInt32
+ENV LD_LIBRARY_PATH=/opt/openfoam/ThirdParty-v2206/platforms/linux64GccDPInt32/petsc-git/lib:$LD_LIBRARY_PATH 
+
+RUN source /opt/openfoam/OpenFOAM-v2206/etc/bashrc &&  mkdir -p /var/tmp && cd /var/tmp && git clone -b v2206 https://develop.openfoam.com/modules/external-solver.git petscfoam && cd /var/tmp/petscfoam  &&  ./Allwmake && foamHasLibrary -verbose petscFoam
+
+RUN mkdir -p /home/ && cd /home/ && git clone -b petsc https://github.com/radiolok/fluidicpc.git fluidicpc
