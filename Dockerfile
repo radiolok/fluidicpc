@@ -126,35 +126,35 @@ RUN apt-get update -y && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-
    libgmp-dev libmpfr-dev libmpc-dev && \
    rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /opt/openfoam && cd /opt/openfoam && \
-wget https://dl.openfoam.com/source/latest/OpenFOAM-v2206.tgz && tar -xf OpenFOAM-v2206.tgz && \
-wget https://dl.openfoam.com/source/latest/ThirdParty-v2206.tgz && tar -xf ThirdParty-v2206.tgz && \
-source /opt/openfoam/OpenFOAM-v2206/etc/bashrc && \
-cd /opt/openfoam/OpenFOAM-v2206/ && \
-./Allwmake -j -s -q -l
+# RUN mkdir /opt/openfoam && cd /opt/openfoam && \
+#wget https://dl.openfoam.com/source/latest/OpenFOAM-v2206.tgz && tar -xf OpenFOAM-v2206.tgz && \
+#wget https://dl.openfoam.com/source/latest/ThirdParty-v2206.tgz && tar -xf ThirdParty-v2206.tgz && \
+#source /opt/openfoam/OpenFOAM-v2206/etc/bashrc && \
+#cd /opt/openfoam/OpenFOAM-v2206/ && \
+#./Allwmake -j -s -q -l
 
-
-
-#RUN curl https://dl.openfoam.com/add-debian-repo.sh | bash && apt-get -y install openfoam2206-default
+RUN curl https://dl.openfoam.com/add-debian-repo.sh | bash && apt-get -y install openfoam2206-default
 
 RUN mkdir -p /var/tmp && cd /var/tmp && \
 git clone -b release https://gitlab.com/petsc/petsc.git petsc
 
-RUN source /opt/openfoam/OpenFOAM-v2206/etc/bashrc && \
- cd /var/tmp/petsc && \
- ./configure --with-64-bit-indices=0 --download-fblaslapack --with-cuda  --with-precision=double --prefix=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER$WM_PRECISION_OPTION$WM_LABEL_OPTION/petsc-git  PETSC_ARCH=$WM_OPTIONS && \
-  make -j  all && \
-  mkdir -p $WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER$WM_PRECISION_OPTION$WM_LABEL_OPTION/petsc-git && \
-  export PETSC_DIR=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER$WM_PRECISION_OPTION$WM_LABEL_OPTION/petsc-git && \
-  export PETSC_ARCH=$WM_OPTIONS && \
-  make PETSC_DIR=/var/tmp/petsc PETSC_ARCH=linux64GccDPInt32Opt install
+RUN cd /var/tmp/petsc && \
+./configure --with-64-bit-indices=0 --download-fblaslapack --with-cuda  --with-precision=double --prefix=/usr/lib/openfoam/openfoam2206/platforms/linux64GccDPInt32Opt PETSC_ARCH=linux64GccDPInt32Opt && \
+make -j  all && \
+export PETSC_DIR=/usr/lib/openfoam/openfoam2206/platforms/linux64GccDPInt32Opt && \
+export PETSC_ARCH=linux64GccDPInt32OptS && \
+make PETSC_DIR=/var/tmp/petsc PETSC_ARCH=linux64GccDPInt32Opt install
 
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
-ENV PETSC_DIR=/opt/openfoam/ThirdParty-v2206/platforms/linux64GccDPInt32/petsc-git/
-ENV PETSC_ARCH=linux64GccDPInt32
-ENV LD_LIBRARY_PATH=/opt/openfoam/ThirdParty-v2206/platforms/linux64GccDPInt32/petsc-git/lib:$LD_LIBRARY_PATH 
 
-RUN source /opt/openfoam/OpenFOAM-v2206/etc/bashrc &&  mkdir -p /var/tmp && cd /var/tmp && git clone -b v2206 https://develop.openfoam.com/modules/external-solver.git petscfoam && cd /var/tmp/petscfoam  &&  ./Allwmake && foamHasLibrary -verbose petscFoam
+ENV PETSC_DIR=/usr/lib/openfoam/openfoam2206/platforms/linux64GccDPInt32Opt
+ENV PETSC_ARCH=linux64GccDPInt32
+
+RUN source /usr/lib/openfoam/openfoam2206/etc/bashrc && \
+mkdir -p /var/tmp && cd /var/tmp && git clone -b v2206 https://develop.openfoam.com/modules/external-solver.git petscfoam && cd /var/tmp/petscfoam  &&  \
+export PETSC_DIR=/usr/lib/openfoam/openfoam2206/platforms/linux64GccDPInt32Opt && \
+export PETSC_ARCH=linux64GccDPInt32Opt && \
+./Allwmake && foamHasLibrary -verbose petscFoam
 
 RUN mkdir -p /home/ && cd /home/ && git clone -b petsc https://github.com/radiolok/fluidicpc.git fluidicpc
