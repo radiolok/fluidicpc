@@ -12,7 +12,7 @@ wire [WIDTH:0] res = {co, out};
 reg [$clog2(TEST_NUM):0] test;
 reg [$clog2(TEST_NUM):0] correct;
 
-adder #(.WIDTH(WIDTH)) Adder(.A(A), .B(B), .out(out), .co(co));
+adder #(.WIDTH(WIDTH)) Adder(.A(A), .B(B), .out(out), .co(co), .ci(1'b0));
 
 initial begin 
   $dumpfile("adder.vcd");
@@ -33,9 +33,11 @@ always @(clk) begin
     test <= test + 1;
     if (test >= TEST_NUM) begin
       $display("TESTS: %d/%d", correct, test);
+      if (test != correct) 
+        $fatal();
       $finish();
     end
-    if (out == RC) begin
+    if (res == RC) begin
       correct <= correct + 1;
     end
     else begin
