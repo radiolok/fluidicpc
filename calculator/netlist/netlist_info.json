@@ -1,0 +1,123 @@
+{
+ "paths": {
+  "osc": "u_b2_ctrl.u_die_b.osc",
+  "ph1": "u_b2_ctrl.u_die_b.ph1",
+  "ph2": "u_b2_ctrl.u_die_b.ph2",
+  "ph3": "u_b2_ctrl.u_die_b.ph3",
+  "run": "u_b2_ctrl.u_die_a.st_run",
+  "neg": "u_b2_ctrl.u_die_a.st_neg"
+ },
+ "stats": {
+  "d1_retina_a": [
+   105,
+   25,
+   27,
+   {
+    "AND": 52,
+    "OR": 34,
+    "KEY": 19
+   }
+  ],
+  "d2_retina_b": [
+   115,
+   34,
+   16,
+   {
+    "AND": 57,
+    "OR": 51,
+    "KEY": 7
+   }
+  ],
+  "d3_ctrl_a": [
+   90,
+   20,
+   19,
+   {
+    "AND": 47,
+    "NOR": 2,
+    "OR": 16,
+    "NOT": 4,
+    "RS": 21
+   }
+  ],
+  "d4_ctrl_b": [
+   113,
+   8,
+   12,
+   {
+    "OR": 17,
+    "NOT": 1,
+    "XOR": 9,
+    "AND": 64,
+    "NOR": 1,
+    "RS": 20,
+    "OSC": 1
+   }
+  ],
+  "d5_alu_a": [
+   120,
+   36,
+   10,
+   {
+    "NOT": 1,
+    "AND": 53,
+    "OR": 36,
+    "XOR": 28,
+    "NOR": 2
+   }
+  ],
+  "d6_alu_b": [
+   123,
+   14,
+   33,
+   {
+    "AND": 76,
+    "XOR": 12,
+    "OR": 3,
+    "RS": 32
+   }
+  ],
+  "d7_disp_a": [
+   112,
+   23,
+   16,
+   {
+    "AND": 53,
+    "OR": 38,
+    "NOT": 9,
+    "NOR": 12
+   }
+  ],
+  "d8_disp_b": [
+   74,
+   18,
+   14,
+   {
+    "AND": 38,
+    "NOT": 2,
+    "OR": 22,
+    "NOR": 12
+   }
+  ]
+ },
+ "blocks": {
+  "b1_retina": [
+   26,
+   10
+  ],
+  "b2_ctrl": [
+   12,
+   28
+  ],
+  "b3_alu": [
+   25,
+   26
+  ],
+  "b4_disp": [
+   35,
+   28
+  ]
+ },
+ "interblock_nets": 63,
+ "interblock_links": 71
+}

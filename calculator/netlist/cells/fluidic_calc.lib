@@ -1,0 +1,38 @@
+/* Струйный калькулятор: библиотека ячеек для yosys (read_liberty -lib).
+   Надмножество adder/fluidic.lib: те же BUF/NOT/OR/NOR с пинами A/B/Y,
+   плюс AND, XOR, RS (ячейка памяти), KEY (ключ трубочки), OSC (генератор). */
+library(fluidic_calc) {
+  cell(BUF) { area: 1;
+    pin(A) { direction: input; }
+    pin(Y) { direction: output; function: "A"; } }
+  cell(NOT) { area: 1;
+    pin(A) { direction: input; }
+    pin(Y) { direction: output; function: "A'"; } }
+  cell(OR) { area: 1;
+    pin(A) { direction: input; }
+    pin(B) { direction: input; }
+    pin(Y) { direction: output; function: "(A+B)"; } }
+  cell(NOR) { area: 1;
+    pin(A) { direction: input; }
+    pin(B) { direction: input; }
+    pin(Y) { direction: output; function: "(A+B)'"; } }
+  cell(AND) { area: 1;
+    pin(A) { direction: input; }
+    pin(B) { direction: input; }
+    pin(Y) { direction: output; function: "(A*B)"; } }
+  cell(XOR) { area: 1;
+    pin(A) { direction: input; }
+    pin(B) { direction: input; }
+    pin(Y) { direction: output; function: "(A^B)"; } }
+  cell(RS) { area: 1;
+    pin(S) { direction: input; }
+    pin(R) { direction: input; }
+    pin(Q) { direction: output; }
+    pin(QN) { direction: output; } }
+  cell(KEY) { area: 1;
+    pin(A) { direction: input; }
+    pin(Y) { direction: output; function: "A"; }
+    pin(YN) { direction: output; function: "A'"; } }
+  cell(OSC) { area: 1;
+    pin(Y) { direction: output; } }
+}
