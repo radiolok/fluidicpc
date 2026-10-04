@@ -45,7 +45,8 @@ cosim: | $(BUILD)
 stat: | $(BUILD)
 	$(YOSYS) -q -p "read_verilog -DSYNTHESIS $(CELLS) $(NETLIST); hierarchy -top fluidic_calc_top; tee -o $(BUILD)/stat.txt stat"
 	$(YOSYS) -q -p "read_verilog $(RTL); synth -top fluidic_calc_rtl; tee -o $(BUILD)/rtl_synth.txt stat"
-	tail -n 40 $(BUILD)/stat.txt
+	tail -n 35 $(BUILD)/stat.txt
+	grep -i "cells" $(BUILD)/rtl_synth.txt | tail -n 2
 
 regen:
 	cd model && $(PYTHON) gen_netlist.py && $(PYTHON) gen_testbenches.py

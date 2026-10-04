@@ -101,7 +101,7 @@ module tb_cosim;
             calc(a, o == 0 ? "+" : o == 1 ? "-" : "x", b);
         end
         $display("ИТОГО ошибок: %0d, тактов сверено: %0d, расхождений: %0d", fails, cycles, mism);
-        $display("РЕЗУЛЬТАТ: %s", (fails || mism) ? "FAIL" : "OK");
+        if (fails || mism) $display("РЕЗУЛЬТАТ: FAIL"); else $display("РЕЗУЛЬТАТ: OK");
         $finish;
     end
 endmodule

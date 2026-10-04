@@ -18,7 +18,7 @@ jobs:
       run:
         working-directory: calculator
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Инструменты
         run: |
           sudo apt-get update
@@ -42,8 +42,8 @@ jobs:
         run: ci/step.sh make cosim
       - name: Подсчёт элементов (yosys)
         if: ${{ !cancelled() }}
-        run: ci/step.sh make stat
-      - uses: actions/upload-artifact@v4
+        run: NOTICE=1 ci/step.sh make stat
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: logs

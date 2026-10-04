@@ -87,7 +87,7 @@ module tb_netlist;
             calc(a, o == 0 ? "+" : o == 1 ? "-" : "x", b);
         end
         $display("ИТОГО ошибок: %0d", fails);
-        $display("РЕЗУЛЬТАТ: %s", fails ? "FAIL" : "OK");
+        if (fails) $display("РЕЗУЛЬТАТ: FAIL"); else $display("РЕЗУЛЬТАТ: OK");
         $finish;
     end
 endmodule

@@ -117,7 +117,7 @@ module {name};
             calc(a, o == 0 ? "+" : o == 1 ? "-" : "x", b);
         end
         $display("ИТОГО ошибок: %0d", fails);
-        $display("РЕЗУЛЬТАТ: %s", fails ? "FAIL" : "OK");
+        if (fails) $display("РЕЗУЛЬТАТ: FAIL"); else $display("РЕЗУЛЬТАТ: OK");
         $finish;
     end
 endmodule
@@ -148,8 +148,8 @@ endmodule
             if (mism < 10) $display("%t РАСХОЖДЕНИЕ: нетлист %h/%b, модель %h/%b", $time, seg, sign, seg_rtl, sign_rtl);
         end
     end
-''').replace('        $display("ИТОГО ошибок: %0d", fails);\n        $display("РЕЗУЛЬТАТ: %s", fails ? "FAIL" : "OK");',
-             '        $display("ИТОГО ошибок: %0d, тактов сверено: %0d, расхождений: %0d", fails, cycles, mism);\n        $display("РЕЗУЛЬТАТ: %s", (fails || mism) ? "FAIL" : "OK");'))
+''').replace('        $display("ИТОГО ошибок: %0d", fails);\n        if (fails) $display("РЕЗУЛЬТАТ: FAIL"); else $display("РЕЗУЛЬТАТ: OK");',
+             '        $display("ИТОГО ошибок: %0d, тактов сверено: %0d, расхождений: %0d", fails, cycles, mism);\n        if (fails || mism) $display("РЕЗУЛЬТАТ: FAIL"); else $display("РЕЗУЛЬТАТ: OK");'))
 (RTL / 'tb_rtl.v').write_text(tb(
     'tb_rtl', 'Самопроверка высокоуровневой модели.',
     '    reg         clk = 0;\n    wire [27:0] seg;\n    wire        sign;\n    always #1 clk = ~clk;\n'
