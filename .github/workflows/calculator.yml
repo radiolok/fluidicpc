@@ -1,0 +1,45 @@
+name: calculator
+
+on:
+  push:
+    paths:
+      - 'calculator/**'
+      - 'verilog2netlist/verilog_parse.py'
+      - '.github/workflows/calculator.yml'
+  pull_request:
+    paths:
+      - 'calculator/**'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: calculator
+    steps:
+      - uses: actions/checkout@v4
+      - name: Инструменты
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog yosys
+          pip install pyparsing
+      - name: Нетлист и тестбенчи совпадают с моделью
+        run: |
+          make regen
+          git diff --exit-code -- netlist rtl/calc_glyphs.vh
+      - name: Python-модель, проверка нетлиста, RTL-зеркало
+        run: make model
+      - name: Высокоуровневая модель (iverilog)
+        run: make rtl
+      - name: Структурный нетлист (iverilog)
+        run: make netlist
+      - name: Сверка нетлиста и модели (iverilog)
+        run: make cosim
+      - name: Подсчёт элементов (yosys)
+        run: make stat
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: logs
+          path: calculator/build/
