@@ -27,17 +27,22 @@ jobs:
       - name: Нетлист и тестбенчи совпадают с моделью
         run: |
           make regen
-          git diff --exit-code -- netlist rtl/calc_glyphs.vh
+          ci/step.sh git diff --exit-code -- netlist rtl/calc_glyphs.vh
       - name: Python-модель, проверка нетлиста, RTL-зеркало
-        run: make model
+        if: ${{ !cancelled() }}
+        run: ci/step.sh make model
       - name: Высокоуровневая модель (iverilog)
-        run: make rtl
+        if: ${{ !cancelled() }}
+        run: ci/step.sh make rtl
       - name: Структурный нетлист (iverilog)
-        run: make netlist
+        if: ${{ !cancelled() }}
+        run: ci/step.sh make netlist
       - name: Сверка нетлиста и модели (iverilog)
-        run: make cosim
+        if: ${{ !cancelled() }}
+        run: ci/step.sh make cosim
       - name: Подсчёт элементов (yosys)
-        run: make stat
+        if: ${{ !cancelled() }}
+        run: ci/step.sh make stat
       - uses: actions/upload-artifact@v4
         if: always()
         with:
